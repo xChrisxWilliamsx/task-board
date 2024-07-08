@@ -13,8 +13,22 @@ generateTaskId(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-    
+    const toDo = document.getElementById('todo-cards');
+    toDo.insertAdjacentHTML('beforeend',
+        `<div class="card">
+            <div class="card-header">
+            <h5 class="card-title">TEST TITLE</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-4">TEST DESC.</h6>
+                <p class="card-text">DUE: -TEST DATE- 01/01/0101</p>
+                <button type="button" class="btn btn-danger">DELETE</button>
+            </div>
+        </div>`
+    )
 }
+
+createTaskCard(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
