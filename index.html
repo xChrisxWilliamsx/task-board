@@ -22,9 +22,43 @@
   </header>
   <div class="container">
     <div class="text-center mb-5">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Task</button>
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add A Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="d-flex flex-row flex-wrap justify-content-between">
+              <!-- Form Title -->
+              <div class="form-group my-2">
+                <label for="titleInput">Title</label>
+                <input type="email" class="form-control" id="titleInput">
+              </div>
+              <!-- Form DatePicker -->
+              <div class="form-group my-2">
+                <label for="datePicker">date</label>
+                <input type="text" class="form-control" id="datePicker">
+              </div>
+              <!-- Form Description -->
+              <div class="my-3 flex-grow-1">
+                <label for="descInput" class="form-label">Description</label>
+                <textarea class="form-control" id="descInput" rows="3" required></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-flex flex-row flex-wrap justify-content-between">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-success">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row swim-lanes text-center justify-content-between">
       <div class="col-12 col-lg-4 d-flex">
         <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
@@ -68,6 +102,19 @@
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
 
   <script src="./assets/js/script.js"></script>
+
+  <!-- Meed to move to script.js / placed here for testing -->
+  <script> 
+    $(function () { 
+        $("#datePicker").datepicker({  
+          changeMonth: true,
+          changeYear: true,
+          todayHighlight: true, 
+        }).datepicker('update', new Date()); 
+    }); 
+</script> 
+
+
 </body>
 
 </html>
