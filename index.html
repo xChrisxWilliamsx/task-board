@@ -25,7 +25,6 @@
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Task</button>
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
-    <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -53,7 +52,7 @@
             </form>
           </div>
           <div class="modal-footer d-flex flex-row flex-wrap justify-content-between">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-success" id="saveTask">Save</button>
           </div>
         </div>
@@ -66,7 +65,7 @@
             <h2 class="card-title mb-1">To Do</h2>
           </div>
           <div class="card-body bg-light d-flex justify-content-center">
-            <div id="todo-cards"></div>
+            <div class="w-75" id="todo-cards"></div>
           </div>
         </div>
       </div>
@@ -100,21 +99,7 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
-
-  <script src="./assets/js/script.js"></script>
-
-  <!-- Meed to move to script.js / placed here for testing -->
-  <script> 
-    $(function () { 
-        $("#datePicker").datepicker({  
-          changeMonth: true,
-          changeYear: true,
-          todayHighlight: true, 
-        }).datepicker('update', new Date()); 
-    }); 
-</script> 
-
-
+   <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
