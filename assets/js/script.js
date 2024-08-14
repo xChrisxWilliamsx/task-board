@@ -1,7 +1,6 @@
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 let nextId = JSON.parse(localStorage.getItem("nextId"));
-const today = dayjs().format("MM/DD/YYYY");
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -14,14 +13,13 @@ function generateTaskId() {
 generateTaskId(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(){
-    
+function handleAddTask() {
     $(function () { 
         $("#datePicker").datepicker({  
           changeMonth: true,
           changeYear: true,
           todayHighlight: true,
-        }).datepicker('update', new Date()); 
+        })
     }); 
 
     $('#saveTask').on('click', function () {    
@@ -37,6 +35,8 @@ function handleAddTask(){
             id: taskId,
         }
 
+        const today = dayjs().format("MM/DD/YYYY");
+
         if ($('#datePicker').val() < today) {
             alert("Please Select A Valid Date");
             $('#datePicker').val("");
@@ -48,27 +48,32 @@ function handleAddTask(){
             location.reload();
         }
     })
+
+    $('#cancelTask').on('click', function(){
+        $('#titleInput').val("");
+        $('#datePicker').val("");
+        $('#descInput').val("");
+    })
 }
 
 handleAddTask(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to create a task card
 function createTaskCard(tasks) {
-    localStorage.getItem("tasks");
     const taskCard = document.getElementById('todo-cards');
     taskCard.insertAdjacentHTML('afterbegin',
         `<div class="taskCard card my-2 text-dark border border-dark border-2">
-        <div class="card-header border-bottom border-dark border-2">
-        <h5 class="card-title fw-bold">${tasks.title}</h5>
-        </div>
-        <div class="card-body">
-        <h6 class="card-subtitle mt-2 mb-4">${tasks.desc}</h6>
-        <p class="card-text">DUE: ${tasks.due}</p>
-        <p class="card-text visually-hidden">TASK ID: ${tasks.id}</p>
-        <button type="button" class="btn bg-danger border border-dark border-2 text-dark fw-bold">DELETE</button>
-        </div>
+            <div class="card-header border-bottom border-dark border-2">
+                <h5 class="card-title fw-bold">${tasks.title}</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mt-2 mb-4">${tasks.desc}</h6>
+                <p class="card-text">DUE: ${tasks.due}</p>
+                <p class="card-text idData">${tasks.id}</p>
+                <button type="button" class="btn carddeleteBtn bg-danger border border-dark border-2 text-dark fw-bold" >DELETE</button>
+            </div>
         </div>`
-    )
+    )    
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -93,9 +98,17 @@ function renderTaskList() {
 renderTaskList(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
-
+function handleDeleteTask(){
+    $('.carddeleteBtn').on('click', function() {
+        const idData = $('.taskCard').children().eq(1).children().eq(2).text();
+        const removeCard = taskList.filter((taskList) => taskList.id !== idData);
+        localStorage.removeItem('tasks');
+        localStorage.setItem('tasks', JSON.stringify(removeCard));
+        location.reload();
+    });
 }
+
+handleDeleteTask(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
@@ -106,3 +119,7 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
 
 });
+
+// Errors: 
+        // if newly added card os within a color due date all cards will change to that color
+        //  if date input is less than month and date but a greater year alert still pops up
