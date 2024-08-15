@@ -33,6 +33,7 @@ function handleAddTask() {
             due: dueDate,
             desc: descInput,
             id: taskId,
+            lane: "To-Do", 
         }
 
         const today = dayjs().format("MM/DD/YYYY");
@@ -70,6 +71,7 @@ function createTaskCard(tasks) {
                 <h6 class="card-subtitle mt-2 mb-4">${tasks.desc}</h6>
                 <p class="card-text">DUE: ${tasks.due}</p>
                 <p class="card-text idData">${tasks.id}</p>
+                <p class="card-text laneData">${tasks.lane}</p>
                 <button type="button" class="btn carddeleteBtn bg-danger border border-dark border-2 text-dark fw-bold" >DELETE</button>
             </div>
         </div>`
@@ -81,17 +83,13 @@ function renderTaskList() {
     taskList.forEach(tasks => {
         createTaskCard(tasks);
         
-        if (dayjs(tasks.due).isBefore(dayjs().add(2, 'd'))) {
-            $('.taskCard').addClass('bg-danger bg-gradient text-white'); 
-        } else if (dayjs(tasks.due).isBefore(dayjs().add(1, 'w'))) {
-            $('.taskCard').addClass('bg-warning bg-gradient'); 
-        } else {
-            return;  
-        }
-
-        $( function() {
-            $( ".taskCard" ).draggable();
-        });
+        // if (dayjs(tasks.due).isBefore(dayjs().add(2, 'd'))) {
+        //     $('.taskCard').addClass('bg-danger bg-gradient text-white'); 
+        // } else if (dayjs(tasks.due).isBefore(dayjs().add(1, 'w'))) {
+        //     $('.taskCard').addClass('bg-warning bg-gradient'); 
+        // } else {
+        //     return;  
+        // }
     });
 }
 
@@ -111,15 +109,17 @@ function handleDeleteTask(){
 handleDeleteTask(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {
-
+function handleDrop() {
+    $( function() {
+      $( "#todo-cards, #in-progress-cards, #done-cards").sortable({
+        connectWith: ".connectedSortable"
+      }).disableSelection();
+    });
 }
+
+handleDrop(); // for testing purposes remove prior to deploy
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
 });
-
-// Errors: 
-        // if newly added card os within a color due date all cards will change to that color
-        //  if date input is less than month and date but a greater year alert still pops up
