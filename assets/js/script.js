@@ -10,8 +10,6 @@ function generateTaskId() {
     localStorage.getItem("nextId")
 }
 
-generateTaskId(); // for testing purposes remove prior to deploy 1 
-
 // Todo: create a function to handle adding a new task
 function handleAddTask() {
     $(() => { 
@@ -57,8 +55,6 @@ function handleAddTask() {
     })
 }
 
-handleAddTask(); // for testing purposes remove prior to deploy 3 
-
 // Todo: create a function to create a task card
 function createTaskCard(tasks) {
     const taskCard = document.getElementById(`${tasks.lane}`);
@@ -95,8 +91,6 @@ function renderTaskList() {
     });
 }
 
-renderTaskList(); // for testing purposes remove prior to deploy 2 
-
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(){
     $('.carddeleteBtn').on('click', (event) => {
@@ -109,8 +103,6 @@ function handleDeleteTask(){
         location.reload();
     });
 }
-
-handleDeleteTask(); // for testing purposes remove prior to deploy 5 
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleSort() {
@@ -134,9 +126,11 @@ function handleSort() {
     })
 } 
 
-handleSort(); // for testing purposes remove prior to deploy 4 
-
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-
+    generateTaskId();
+    renderTaskList();
+    handleAddTask();
+    handleSort();
+    handleDeleteTask();
 });
