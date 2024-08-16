@@ -10,7 +10,7 @@ function generateTaskId() {
     localStorage.getItem("nextId")
 }
 
-generateTaskId(); // for testing purposes remove prior to deploy
+generateTaskId(); // for testing purposes remove prior to deploy 1 
 
 // Todo: create a function to handle adding a new task
 function handleAddTask() {
@@ -57,12 +57,12 @@ function handleAddTask() {
     })
 }
 
-handleAddTask(); // for testing purposes remove prior to deploy
+handleAddTask(); // for testing purposes remove prior to deploy 3 
 
 // Todo: create a function to create a task card
 function createTaskCard(tasks) {
     const taskCard = document.getElementById(`${tasks.lane}`);
-    taskCard.insertAdjacentHTML('afterbegin',
+    taskCard.insertAdjacentHTML('afterbegin', 
         `<div class="taskCard card my-2 text-dark border border-dark border-2">
             <div class="card-header border-bottom border-dark border-2">
                 <h5 class="card-title fw-bold">${tasks.title}</h5>
@@ -72,41 +72,45 @@ function createTaskCard(tasks) {
                 <p class="card-text">DUE: ${tasks.due}</p>
                 <p class="card-text idData">${tasks.id}</p>
                 <p class="card-text laneData">${tasks.lane}</p>
-                <button type="button" class="btn carddeleteBtn bg-danger border border-dark border-2 text-dark fw-bold" >DELETE</button>
+            </div>
+            <div w-50>
+                <button type="button" class="btn carddeleteBtn mb-2 bg-danger border border-dark border-2 text-dark fw-bold" >DELETE</button>
             </div>
         </div>`
-    )    
+    );
+
+    if (dayjs(tasks.due).isBefore(dayjs().add(2, 'd'))) {
+        $('.taskCard').addClass('bg-danger bg-gradient text-white'); 
+    } else if (dayjs(tasks.due).isBefore(dayjs().add(1, 'w'))) {
+        $('.taskCard').addClass('bg-warning bg-gradient'); 
+    } else {
+        return;  
+    }
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
     taskList.forEach(tasks => {
         createTaskCard(tasks);
-        
-        // if (dayjs(tasks.due).isBefore(dayjs().add(2, 'd'))) {
-        //     $('.taskCard').addClass('bg-danger bg-gradient text-white'); 
-        // } else if (dayjs(tasks.due).isBefore(dayjs().add(1, 'w'))) {
-        //     $('.taskCard').addClass('bg-warning bg-gradient'); 
-        // } else {
-        //     return;  
-        // }
     });
 }
 
-renderTaskList(); // for testing purposes remove prior to deploy
+renderTaskList(); // for testing purposes remove prior to deploy 2 
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(){
-    $('.carddeleteBtn').on('click', () => {
-        const idData = $('.taskCard').children().eq(1).children().eq(2).text();
+    $('.carddeleteBtn').on('click', (event) => {
+        event.preventDefault();
+        const idData = $(event.target).parents('.taskCard').children().eq(1).children().eq(2).text();    
         const removeCard = taskList.filter((taskList) => taskList.id !== idData);
+        
         localStorage.removeItem('tasks');
         localStorage.setItem('tasks', JSON.stringify(removeCard));
         location.reload();
     });
 }
 
-handleDeleteTask(); // for testing purposes remove prior to deploy
+handleDeleteTask(); // for testing purposes remove prior to deploy 5 
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleSort() {
@@ -116,9 +120,8 @@ function handleSort() {
       }).disableSelection();
     });
     
-    $('.taskCard').on("mouseup", (event) => {
+    $('.card-header').on("mouseup", (event) => {
         event.preventDefault();
-
         setTimeout(() => {
             const cardLocation = $(event.target).closest('.w-75').attr('id');
             const cardId = $(event.target).closest('.taskCard').children().eq(1).children().eq(2).text();
@@ -131,7 +134,7 @@ function handleSort() {
     })
 } 
 
-handleSort(); // for testing purposes remove prior to deploy
+handleSort(); // for testing purposes remove prior to deploy 4 
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
