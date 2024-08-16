@@ -14,7 +14,7 @@ generateTaskId(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle adding a new task
 function handleAddTask() {
-    $(function () { 
+    $(() => { 
         $("#datePicker").datepicker({  
           changeMonth: true,
           changeYear: true,
@@ -22,7 +22,7 @@ function handleAddTask() {
         })
     }); 
 
-    $('#saveTask').on('click', function () {    
+    $('#saveTask').on('click', () => {    
         let titleInput = $('#titleInput').val();  
         let dueDate = $('#datePicker').val();
         let descInput = $('#descInput').val();
@@ -33,7 +33,7 @@ function handleAddTask() {
             due: dueDate,
             desc: descInput,
             id: taskId,
-            lane: "To-Do", 
+            lane: 'todo-cards', 
         }
 
         const today = dayjs().format("MM/DD/YYYY");
@@ -50,7 +50,7 @@ function handleAddTask() {
         }
     })
 
-    $('#cancelTask').on('click', function(){
+    $('#cancelTask').on('click', () => {
         $('#titleInput').val("");
         $('#datePicker').val("");
         $('#descInput').val("");
@@ -61,7 +61,7 @@ handleAddTask(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to create a task card
 function createTaskCard(tasks) {
-    const taskCard = document.getElementById('todo-cards');
+    const taskCard = document.getElementById(`${tasks.lane}`);
     taskCard.insertAdjacentHTML('afterbegin',
         `<div class="taskCard card my-2 text-dark border border-dark border-2">
             <div class="card-header border-bottom border-dark border-2">
@@ -97,7 +97,7 @@ renderTaskList(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(){
-    $('.carddeleteBtn').on('click', function() {
+    $('.carddeleteBtn').on('click', () => {
         const idData = $('.taskCard').children().eq(1).children().eq(2).text();
         const removeCard = taskList.filter((taskList) => taskList.id !== idData);
         localStorage.removeItem('tasks');
@@ -109,15 +109,29 @@ function handleDeleteTask(){
 handleDeleteTask(); // for testing purposes remove prior to deploy
 
 // Todo: create a function to handle dropping a task into a new status lane
-function handleDrop() {
-    $( function() {
+function handleSort() {
+    $(() => {
       $( "#todo-cards, #in-progress-cards, #done-cards").sortable({
         connectWith: ".connectedSortable"
       }).disableSelection();
     });
-}
+    
+    $('.taskCard').on("mouseup", (event) => {
+        event.preventDefault();
 
-handleDrop(); // for testing purposes remove prior to deploy
+        setTimeout(() => {
+            const cardLocation = $(event.target).closest('.w-75').attr('id');
+            const cardId = $(event.target).closest('.taskCard').children().eq(1).children().eq(2).text();
+   
+            taskList.map(tasks => tasks.id === cardId && (tasks.lane = cardLocation, true));
+            localStorage.removeItem('tasks');
+            localStorage.setItem('tasks', JSON.stringify(taskList));
+            location.reload();
+        }, 0.1);
+    })
+} 
+
+handleSort(); // for testing purposes remove prior to deploy
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
