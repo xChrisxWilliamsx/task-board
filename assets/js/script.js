@@ -66,8 +66,8 @@ function createTaskCard(tasks) {
             <div class="card-body">
                 <h6 class="card-subtitle mt-2 mb-4">${tasks.desc}</h6>
                 <p class="card-text">DUE: ${tasks.due}</p>
-                <p class="card-text idData">${tasks.id}</p>
-                <p class="card-text laneData">${tasks.lane}</p>
+                <p class="card-text idData visually-hidden">${tasks.id}</p>
+                <p class="card-text laneData visually-hidden">${tasks.lane}</p>
             </div>
             <div w-50>
                 <button type="button" class="btn carddeleteBtn mb-2 bg-danger border border-dark border-2 text-dark fw-bold" >DELETE</button>
